@@ -13,7 +13,6 @@ import HTMLTopic from '@/views/topic/front/HTMLTopic'
 import CSSTopic from '@/views/topic/front/CSSTopic'
 import JavascriptTopic from '@/views/topic/front/JavascriptTopic'
 import VueTopicTopic from '@/views/topic/front/VueTopic'
-import WebpackTopic from '@/views/topic/front/WebpackTopic'
 //后台
 import JavaSETopic from '@/views/topic/backstage/JavaSETopic'
 import MavenTopic from '@/views/topic/backstage/MavenTopic'
@@ -82,11 +81,6 @@ export default new Router({
       path: '/Vue',
       name: 'VueTopic',
       component: VueTopicTopic
-    },
-    {
-      path: '/Webpack',
-      name: 'WebpackTopic',
-      component: WebpackTopic
     },
     {
       path: '/JavaSE',

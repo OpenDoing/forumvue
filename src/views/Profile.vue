@@ -32,6 +32,11 @@ export default {
   name: "Profile",
   components: {
     MenuHeader
+  },
+  data() {
+    return {
+      tableData: []
+    }
   }
 }
 </script>

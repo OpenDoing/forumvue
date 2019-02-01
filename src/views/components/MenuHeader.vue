@@ -13,24 +13,35 @@
         <el-menu-item index="topic">All</el-menu-item>
         <el-submenu index="2">
           <template slot="title">前端</template>
-          <el-menu-item index="HTML">HTML</el-menu-item>
-          <el-menu-item index="CSS">CSS</el-menu-item>
-          <el-menu-item index="Javascript">Javascript</el-menu-item>
-          <el-menu-item index="Vue">Vue</el-menu-item>
-          <el-menu-item index="Webpack">Webpack</el-menu-item>
+            <el-menu-item :index=item.second v-for="item in front" :key="item.id">
+              {{ item.second }}
+            </el-menu-item>
+
+          <!--<el-menu-item index="HTML">HTML</el-menu-item>-->
+          <!--<el-menu-item index="CSS">CSS</el-menu-item>-->
+          <!--<el-menu-item index="Javascript">Javascript</el-menu-item>-->
+          <!--<el-menu-item index="Vue">Vue</el-menu-item>-->
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">后台</template>
-          <el-menu-item index="JavaSE">JavaSE</el-menu-item>
-          <el-menu-item index="SpringBoot">SpringBoot</el-menu-item>
-          <el-menu-item index="Maven">Maven</el-menu-item>
+          <el-menu-item :index=item.second  v-for="item in backstage" :key="item.id">
+            {{ item.second }}
+          </el-menu-item>
+
+          <!--<el-menu-item index="JavaSE">JavaSE</el-menu-item>-->
+          <!--<el-menu-item index="SpringBoot">SpringBoot</el-menu-item>-->
+          <!--<el-menu-item index="Maven">Maven</el-menu-item>-->
         </el-submenu>
 
         <el-submenu index="4">
           <template slot="title">数据库</template>
-          <el-menu-item index="MyBatis">MyBatis</el-menu-item>
-          <el-menu-item index="MySQL">MySQL</el-menu-item>
-          <el-menu-item index="JPA">JPA</el-menu-item>
+          <el-menu-item :index=item.second v-for="item in db" :key="item.id">
+            {{ item.second }}
+          </el-menu-item>
+
+          <!--<el-menu-item index="MyBatis">MyBatis</el-menu-item>-->
+          <!--<el-menu-item index="MySQL">MySQL</el-menu-item>-->
+          <!--<el-menu-item index="JPA">JPA</el-menu-item>-->
         </el-submenu>
 
       </el-menu>
@@ -52,14 +63,57 @@
 </template>
 
 <script>
-export default {
+import {config} from "../../utils/global"
+import axios from 'axios'
+  export default {
   name: "MenuHeader",
   data() {
     return {
-      defautActive: 'topic'
+      defautActive: 'topic',
+      front: [],
+      db:[],
+      backstage:[]
     };
   },
+  mounted() {
+    this.frontf()
+    this.dbf()
+    this.backstagef()
+  },
   methods: {
+    frontf() {
+      const url = config.base_url + '/classify/get?firstId=1'
+      axios
+        .get(url)
+        .then(res=>{
+          this.front = res.data
+        })
+        .catch(err=>{
+
+        })
+    },
+    dbf() {
+      const url = config.base_url + '/classify/get?firstId=3'
+      axios
+        .get(url)
+        .then(res=>{
+          this.db = res.data
+        })
+        .catch(err=>{
+
+        })
+    },
+    backstagef() {
+      const url = config.base_url + '/classify/get?firstId=2'
+      axios
+        .get(url)
+        .then(res=>{
+          this.backstage = res.data
+        })
+        .catch(err=>{
+
+        })
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     }

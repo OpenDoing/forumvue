@@ -10,7 +10,7 @@
             style="width: 100%"
           >
             <el-table-column
-              prop="userId"
+              prop="username"
               label="账号"
               align="center">
             </el-table-column>
@@ -28,7 +28,7 @@
         </el-col>
       </el-row>
       <el-pagination
-        small
+        background
         layout="prev, pager, next"
         :total="total"
         @current-change="current_change">
@@ -53,46 +53,7 @@ export default {
       pagesize:5,//每页的数据条数
       currentPage:1,//默认开始页面
       tableData: [
-        {
-          "userId": 1,
-          "point": 85
-        },
-        {
-          "userId": 2,
-          "point": 1
-        },
-        {
-          "userId": 3,
-          "point": 0
-        },
-        {
-          "userId": 4,
-          "point": 0
-        },
-        {
-          "userId": 5,
-          "point": 0
-        },
-        {
-          "userId": 6,
-          "point": 0
-        },
-        {
-          "userId": 7,
-          "point": 0
-        },
-        {
-          "userId": 4,
-          "point": 0
-        },
-        {
-          "userId": 5,
-          "point": 0
-        },
-        {
-          "userId": 6,
-          "point": 0
-        }
+
       ]
     }
   },
@@ -101,7 +62,7 @@ export default {
   },
   methods:{
     created: function(){
-      //加载班级的数据
+      //加载的数据
       var url ='http://localhost:8004/rank/all'
       //向后台获取数据
       axios
