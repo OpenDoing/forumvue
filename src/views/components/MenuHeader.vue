@@ -2,7 +2,7 @@
   <el-row class="vcenter">
     <el-col :span="9" :offset="4">
       <el-menu
-        :router="true"
+
         :default-active="defautActive"
         class="el-menu-demo"
         mode="horizontal"
@@ -16,21 +16,12 @@
             <el-menu-item :index=item.second v-for="item in front" :key="item.id">
               {{ item.second }}
             </el-menu-item>
-
-          <!--<el-menu-item index="HTML">HTML</el-menu-item>-->
-          <!--<el-menu-item index="CSS">CSS</el-menu-item>-->
-          <!--<el-menu-item index="Javascript">Javascript</el-menu-item>-->
-          <!--<el-menu-item index="Vue">Vue</el-menu-item>-->
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">后台</template>
           <el-menu-item :index=item.second  v-for="item in backstage" :key="item.id">
             {{ item.second }}
           </el-menu-item>
-
-          <!--<el-menu-item index="JavaSE">JavaSE</el-menu-item>-->
-          <!--<el-menu-item index="SpringBoot">SpringBoot</el-menu-item>-->
-          <!--<el-menu-item index="Maven">Maven</el-menu-item>-->
         </el-submenu>
 
         <el-submenu index="4">
@@ -38,10 +29,6 @@
           <el-menu-item :index=item.second v-for="item in db" :key="item.id">
             {{ item.second }}
           </el-menu-item>
-
-          <!--<el-menu-item index="MyBatis">MyBatis</el-menu-item>-->
-          <!--<el-menu-item index="MySQL">MySQL</el-menu-item>-->
-          <!--<el-menu-item index="JPA">JPA</el-menu-item>-->
         </el-submenu>
 
       </el-menu>
@@ -70,11 +57,17 @@ import axios from 'axios'
   data() {
     return {
       defautActive: 'topic',
+      choose: '',
       front: [],
       db:[],
       backstage:[]
     };
   },
+    watch: {
+      'choose':function () {
+        this.$emit("updateTable",this.choose)
+      }
+    },
   mounted() {
     this.frontf()
     this.dbf()
@@ -115,7 +108,7 @@ import axios from 'axios'
         })
     },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      this.choose = key
     }
   }
 }

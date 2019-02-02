@@ -7,7 +7,7 @@
           <div>选择话题分类</div>
         </el-col>
         <el-col :span="8" :offset="1" >
-          <el-select v-model="firstclass" placeholder="请选择" style="width: 100%">
+          <el-select v-model="firstclass" placeholder="请选择" style="width: 100%" @change="showsecond">
             <el-option
               v-for="item in firstselect"
               :key="item.value"
@@ -26,9 +26,9 @@
           <el-select v-model="secondclass" placeholder="请选择" style="width: 100%">
             <el-option
               v-for="item in secondselect"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.id"
+              :label="item.second"
+              :value="item.second">
             </el-option>
           </el-select>
         </el-col>
@@ -39,6 +39,8 @@
 
 <script>
 import MenuHeader from './components/MenuHeader'
+import {config} from "../utils/global"
+import axios from 'axios'
 export default {
   name: "Publish",
   components: {
@@ -59,6 +61,20 @@ export default {
       secondselect:[],
       firstclass: '',
       secondclass: ''
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    showsecond(vId) {
+      const url = config.base_url + '/classify/get?firstId=' + vId
+      axios
+        .get(url)
+        .then(response=>{
+          console.log(response.data)
+          this.secondselect = response.data
+        })
     }
   }
 }

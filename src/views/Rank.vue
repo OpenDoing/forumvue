@@ -7,7 +7,7 @@
           <el-table
             :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             stripe
-            style="width: 100%"
+            style=" width: 100%"
           >
             <el-table-column
               prop="username"
@@ -31,6 +31,7 @@
         background
         layout="prev, pager, next"
         :total="total"
+        :page-size="pagesize"
         @current-change="current_change">
       </el-pagination>
     </el-main>
@@ -41,6 +42,7 @@
 
 <script>
 import MenuHeader from './components/MenuHeader'
+import { config } from "../utils/global"
 import axios from 'axios'
 export default {
   name: "Rank",
@@ -49,12 +51,10 @@ export default {
   },
   data() {
     return {
-      total:0,//默认数据总数
-      pagesize:5,//每页的数据条数
-      currentPage:1,//默认开始页面
-      tableData: [
-
-      ]
+      total:0,          //默认数据总数
+      pagesize:5,       //每页的数据条数
+      currentPage:1,    //默认开始页面
+      tableData: []
     }
   },
   mounted() {
@@ -63,7 +63,7 @@ export default {
   methods:{
     created: function(){
       //加载的数据
-      var url ='http://localhost:8004/rank/all'
+      const url =config.base_url + '/rank/all'
       //向后台获取数据
       axios
         .get(url)
@@ -72,11 +72,6 @@ export default {
           console.log(response.data.data.length)
           this.tableData = response.data.data
         })
-      // var vm = this;
-      // $.getJSON(url,function(data){
-      //   vm.clazzInfo = data;
-      //   vm.total = data.length;//设置数据总数目！！！
-      // });
     },
     current_change:function(currentPage){
       this.currentPage = currentPage;
