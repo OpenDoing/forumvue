@@ -22,7 +22,7 @@
           密码：
         </el-col>
         <el-col :span="12" >
-          <el-input v-model="password"></el-input>
+          <el-input type="password" v-model="password"></el-input>
         </el-col>
       </el-row>
 
@@ -39,6 +39,8 @@
 <script>
 import Header from './components/Header'
 import Footer from  './components/Footer'
+import {config} from "../utils/global";
+import axios from 'axios'
 export default {
   name: "Login",
   components: {
@@ -53,7 +55,37 @@ export default {
   },
   methods: {
     login() {
-
+      const url = config.base_url + '/user/login'
+      axios
+        .post(url,{
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          let data = response.data
+          console.log(data)
+          if (data.errno === 0) {
+            this.$cookies.set('userId', data.data.id, 60 * 60)
+            this.$cookies.set('token', data.data.token,60 * 60)
+            this.$cookies.set('username', data.data.username,60 * 60)
+            this.$router.push({path: '/topic'})
+          }else if (data.errno === 403) {
+            this.$notify.info({
+              title: '提示',
+              message: '账号密码不对!'
+            });
+          } else if (data.errno === 402) {
+            this.$notify.info({
+              title: '提示',
+              message: '请输入正确的用户名！'
+            });
+          } else {
+            this.$notify.info({
+              title: '提示',
+              message: '这是个意外！'
+            });
+          }
+        })
     }
   }
 }

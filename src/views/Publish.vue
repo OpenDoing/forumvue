@@ -2,9 +2,9 @@
   <div>
     <MenuHeader></MenuHeader>
     <el-main>
-      <el-row  class="vcenter">
+      <el-row  class="vcenter mt35">
         <el-col :span="2" :offset="6">
-          <div>选择话题分类</div>
+          <div>选择话题目录</div>
         </el-col>
         <el-col :span="8" :offset="1" >
           <el-select v-model="firstclass" placeholder="请选择" style="width: 100%" @change="showsecond">
@@ -18,9 +18,9 @@
         </el-col>
       </el-row>
 
-      <el-row  class="vcenter">
+      <el-row  class="vcenter mt35">
         <el-col :span="2" :offset="6">
-          <div>选择二级话题分类</div>
+          <div>选择话题分类</div>
         </el-col>
         <el-col :span="8" :offset="1" >
           <el-select v-model="secondclass" placeholder="请选择" style="width: 100%">
@@ -33,6 +33,47 @@
           </el-select>
         </el-col>
       </el-row>
+
+      <el-row  class="vcenter mt35">
+        <el-col :span="2" :offset="6">
+          <div>标题</div>
+        </el-col>
+        <el-col :span="8" :offset="1">
+          <el-input v-model="title"/>
+        </el-col>
+      </el-row>
+
+      <el-row  class="vcenter mt35">
+      <el-col :span="2" :offset="6">
+        <div>内容</div>
+      </el-col>
+      <el-col :span="8" :offset="1">
+        <el-input
+          type="textarea"
+          v-model="content"
+          :rows="10"/>
+      </el-col>
+    </el-row>
+
+      <!--<el-row  class="vcenter mt35">-->
+        <!--<el-col :span="2" :offset="6">-->
+          <!--<div>附加代码（可选）</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="8" :offset="1">-->
+          <!--<el-input-->
+            <!--type="textarea"-->
+            <!--v-model="code"-->
+            <!--:rows="8"/>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
+
+      <el-row class="vcenter mt35">
+        <el-col :span="6" :offset="9">
+          <el-button type="danger" round style="width: 100%" @click="publish">发表</el-button>
+        </el-col>
+      </el-row>
+
+
     </el-main>
   </div>
 </template>
@@ -48,6 +89,12 @@ export default {
   },
   data() {
     return {
+      //一级目录话题Id
+      category: 0,
+      code: '',
+      content: '',
+      title: '',
+      des: '',
       firstselect: [{
         value: '1',
         label: '前端'
@@ -60,6 +107,7 @@ export default {
       }],
       secondselect:[],
       firstclass: '',
+      // 二级目录选择的select分类
       secondclass: ''
     }
   },
@@ -68,6 +116,7 @@ export default {
   },
   methods: {
     showsecond(vId) {
+      this.category = vId
       const url = config.base_url + '/classify/get?firstId=' + vId
       axios
         .get(url)
@@ -75,6 +124,24 @@ export default {
           console.log(response.data)
           this.secondselect = response.data
         })
+    },
+    publish(){
+      const url = config.base_url + '/topic/add'
+        axios
+          .post(url,{
+            category: this.secondclass,
+            code: this.code,
+            content: this.content,
+            title: this.title,
+            userId: this.$cookies.get('userId')
+          })
+          .then(res=>{
+            console.log(res)
+            this.$message({
+              message: '话题发表成功',
+              type: 'success'
+            })
+          })
     }
   }
 }
@@ -87,8 +154,12 @@ export default {
   }
   /*垂直居中*/
   .vcenter{
+
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+  .mt35{
+    margin-top: 25px;
   }
 </style>

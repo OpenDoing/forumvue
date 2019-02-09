@@ -6,6 +6,7 @@
       <el-row>
         <el-col :span="16" :offset="4">
           <el-table
+            empty-text="暂无相关话题"
             :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             stripe
             style="width: 100%"
@@ -45,6 +46,7 @@
                 <el-button
                   size="mini"
                   @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+
               </template>
             </el-table-column>
           </el-table>
@@ -90,7 +92,7 @@ export default {
   watch:{
     'category': function (val) {
       console.log(val)
-      const url =config.base_url + '/topic/category?userId=2&category='+this.category
+      const url =config.base_url + '/topic/category?userId=2&category=' + this.category
       //向后台获取数据
       axios
         .get(url)
@@ -107,6 +109,10 @@ export default {
     this.topicinit()
   },
   methods: {
+    handleEdit(index,row) {
+      console.log(index,row)
+      this.$router.push({path:'/answer/'+ row.id})
+    },
     topicinit() {
       const url =config.base_url + '/topic/all?userId=2'
       //向后台获取数据

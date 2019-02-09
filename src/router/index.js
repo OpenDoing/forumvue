@@ -7,7 +7,7 @@ import Topic from '@/views/Topic'
 import Rank from '@/views/Rank'
 import Profile from '@/views/Profile'
 import Publish from '@/views/Publish'
-
+import Answer from '@/views/Answer'
 // 前端相关
 import HTMLTopic from '@/views/topic/front/HTMLTopic'
 import CSSTopic from '@/views/topic/front/CSSTopic'
@@ -41,6 +41,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/answer/:id',
+      name: 'Answer',
+      component: Answer
     },
     {
       path: '/topic',

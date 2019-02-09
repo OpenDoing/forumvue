@@ -2,7 +2,6 @@
   <el-row class="vcenter">
     <el-col :span="9" :offset="4">
       <el-menu
-
         :default-active="defautActive"
         class="el-menu-demo"
         mode="horizontal"
@@ -34,7 +33,7 @@
       </el-menu>
     </el-col>
     <el-col :span="1" :offset="3">
-      <router-link :to="{name:'Profile'}" class="fontwhite">账号名</router-link>
+      <router-link :to="{name:'Profile'}" class="fontwhite" >{{username}}</router-link>
     </el-col>
     <el-col :span="1">
       <router-link :to="{name:'Publish'}" class="fontwhite">发表</router-link>
@@ -60,7 +59,8 @@ import axios from 'axios'
       choose: '',
       front: [],
       db:[],
-      backstage:[]
+      backstage:[],
+      username:''
     };
   },
     watch: {
@@ -72,8 +72,13 @@ import axios from 'axios'
     this.frontf()
     this.dbf()
     this.backstagef()
+    this.init()
   },
   methods: {
+    init(){
+      this.username = this.$cookies.get('username')
+    },
+
     frontf() {
       const url = config.base_url + '/classify/get?firstId=1'
       axios
@@ -108,6 +113,7 @@ import axios from 'axios'
         })
     },
     handleSelect(key, keyPath) {
+      this.$router.push({path: '/topic'})
       this.choose = key
     }
   }
