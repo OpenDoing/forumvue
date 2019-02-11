@@ -36,7 +36,8 @@
         <div class="answerWrapper">
           <el-row class="vcenter">
             <el-col :span="1" :offset="1">
-              <el-button size="small" round>{{item.username}}</el-button>
+              <el-tag type="">{{ item.username }}</el-tag>
+              <!--<el-button size="small" round>{{ item.username }}</el-button>-->
             </el-col>
             <el-col :span="2" :offset="1">
               <div @click="good(item.judge, item.useful, item.id)" class="sameLine">
@@ -45,12 +46,15 @@
                 <div class="vcenter">{{ item.useful }}</div>
               </div>
             </el-col>
-            <el-col :span="4" :offset="12">
-              {{item.createtime}}
+            <el-col :span="4">
+              <div>评分：{{item.score}}</div>
             </el-col>
-            <el-col :span="2">
-              <el-button size="small" type="danger" icon="el-icon-delete" circle></el-button>
-              <el-button size="small" type="primary" icon="el-icon-edit" circle></el-button>
+            <el-col :span="4" :offset="8">
+              {{ item.createtime }}
+            </el-col>
+            <el-col :span="2" :offset="1">
+              <el-button size="small" type="danger" icon="el-icon-delete" circle @click="delAnswer(item.id, item.username)"></el-button>
+              <el-button size="small" type="primary" icon="el-icon-edit" circle v-show="scorebtn === true" @click="dafen(item.id)"></el-button>
             </el-col>
           </el-row>
           <el-row class="mt30">
@@ -93,6 +97,7 @@ import E from 'wangeditor'
 
 export default {
   name: "Answer",
+  inject: ['reload'],
   components: {MenuHeader, TopicRow},
   data() {
     return {
@@ -105,7 +110,9 @@ export default {
       answers: [],
       zan: false,
       editorObject: new E('#editorMenu', '#editor'),
-      editor: ''
+      editor: '',
+      role: 0,
+      scorebtn: false
     }
   },
   mounted() {
@@ -113,8 +120,79 @@ export default {
     this.initEditor()
   },
   methods: {
+    dafen(id) {
+      this.$prompt('请输入分数', '评分', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        const url = config.base_url + '/answer/changeScore'
+        axios
+          .post(url,{
+            answerId: id,
+            score: value,
+          })
+          .then(res=>{
+
+          })
+
+        this.$message({
+          type: 'success',
+          message: '你的邮箱是: ' + value
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
+
+      const url = config.base_url + '/answer/?answerId=' + id
+
+    },
+    delAnswer(id, username) {
+      const self = this
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const url = config.base_url + '/answer/delete?answerId=' + id
+        if (username === this.username) {
+          axios
+            .delete(url)
+            .then(res=>{
+              console.log(res)
+              self.$message.success('删除成功！')
+              self.reload()
+            })
+        }else {
+          self.$message.error("这是别人的内容，你不能删除")
+        }
+      }).catch(() => {
+
+      });
+
+
+      // const url = config.base_url + '/answer/delete?answerId=' + id
+      // if (username === this.username) {
+      //   axios
+      //     .delete(url)
+      //     .then(res=>{
+      //       console.log(res)
+      //       this.$message.success('删除成功！')
+      //       this.reload()
+      //     })
+      // }else {
+      //   this.$message.error("这是别人的内容，你不能删除")
+      // }
+    },
     reply() {
       const url = config.base_url + '/answer/add'
+      const rurl = config.base_url + '/recommend/reply'
+      if (this.editorObject.txt.text() === '') {
+        this.$message.error('内容为空！')
+        return;
+      }
       axios
         .post(url,{
           topicId: this.topicId,
@@ -127,7 +205,17 @@ export default {
           this.$message({
             message: '回复成功',
             type: 'success'
-          });
+          })
+          this.reload()
+        })
+
+      axios
+        .post(rurl,{
+          userId: this.userId,
+          topicId: this.topicId,
+        })
+        .then(res=>{
+          console.log(res)
         })
     },
     initEditor(){
@@ -158,7 +246,7 @@ export default {
       const id = this.topicId
       const answerUrl = config.base_url + '/answer/get?topicId=' + id + '&userId=' + this.userId + '&username=' + this.username
       const topicUrl = config.base_url + '/topic/get?topicId=' + id
-      // const userUrl = config.base_url + '/user/username?userId=' + this.userId
+      const userUrl = config.base_url + '/user/user?userId=' + this.userId
       axios
         .get(answerUrl)
         .then(res=>{
@@ -175,11 +263,15 @@ export default {
           // console.log(res.data)
         })
 
-      // axios
-      //   .get(userUrl)
-      //   .then(res=>{
-      //     this.username = res.data.data
-      //   })
+      axios
+        .get(userUrl)
+        .then(res=>{
+          this.username = res.data.data.username
+          this.role = res.data.data. role
+          if (this.role === 1) {
+            this.scorebtn = true
+          }
+        })
     }
   }
 }

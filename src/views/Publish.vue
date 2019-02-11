@@ -54,27 +54,13 @@
           :rows="10"/>
       </el-col>
     </el-row>
-
-      <!--<el-row  class="vcenter mt35">-->
-        <!--<el-col :span="2" :offset="6">-->
-          <!--<div>附加代码（可选）</div>-->
-        <!--</el-col>-->
-        <!--<el-col :span="8" :offset="1">-->
-          <!--<el-input-->
-            <!--type="textarea"-->
-            <!--v-model="code"-->
-            <!--:rows="8"/>-->
-        <!--</el-col>-->
-      <!--</el-row>-->
-
       <el-row class="vcenter mt35">
         <el-col :span="6" :offset="9">
           <el-button type="danger" round style="width: 100%" @click="publish">发表</el-button>
         </el-col>
       </el-row>
-
-
     </el-main>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -82,9 +68,11 @@
 import MenuHeader from './components/MenuHeader'
 import {config} from "../utils/global"
 import axios from 'axios'
+import Footer from  './components/Footer'
 export default {
   name: "Publish",
   components: {
+    Footer,
     MenuHeader
   },
   data() {

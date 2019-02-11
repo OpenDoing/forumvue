@@ -22,7 +22,7 @@
           密码：
         </el-col>
         <el-col :span="12" >
-          <el-input v-model="password"></el-input>
+          <el-input type="password" v-model="password"></el-input>
         </el-col>
       </el-row>
 
@@ -44,7 +44,7 @@
 
       <el-row class="mt70">
         <el-col :span="6" :offset="9">
-          <el-button type="danger" round style="width: 100%">注册</el-button>
+          <el-button type="danger" round style="width: 100%" @click="register">注册</el-button>
         </el-col>
       </el-row>
     </el-main>
@@ -55,6 +55,9 @@
 <script>
 import Header from './components/Header'
 import Footer from './components/Footer'
+import {config} from "../utils/global"
+import axios from 'axios'
+
 export default {
   name: "Register",
   components: {
@@ -76,7 +79,37 @@ export default {
     }
   },
   methods: {
+    register: function () {
+      let url = config.base_url + '/user/register'
+      const self = this
+      console.log(this.type)
+      axios({
+        url: url,
+        method:"post",
+        params: {
+          username: this.username,
+          password: this.password,
+          role: this.type
+        },
+        headers: {
+          'Content-Type':'application/x-www-form-urlencoded'
+        }
+      })
+        .then(function (response) {
+          self.$notify({
+            title: '成功',
+            message: '账号成功注册',
+            type: 'success'
+          });
+        })
+        .catch(function (error) {
+          self.$notify.error({
+            title: '错误',
+            message: '注册失败'
+          });
+        });
 
+    }
   }
 }
 </script>

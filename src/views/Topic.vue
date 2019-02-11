@@ -64,6 +64,7 @@
         </el-col>
       </el-row>
     </el-main>
+    <Footer></Footer>
   </div>
 
 </template>
@@ -73,9 +74,11 @@ import MenuHeader from './components/MenuHeader'
 import TopicRow from './components/TopicRow'
 import {config} from "../utils/global"
 import axios from 'axios'
+import Footer from './components/Footer'
 export default {
   name: "Topic",
   components: {
+    Footer,
     MenuHeader,
     TopicRow
   },
@@ -86,19 +89,21 @@ export default {
       total:0,//默认数据总数
       pagesize:5,//每页的数据条数
       currentPage:1,//默认开始页面
-      tableData: []
+      tableData: [],
+      userId: this.$cookies.get('userId'),
     }
   },
   watch:{
     'category': function (val) {
       console.log(val)
-      const url =config.base_url + '/topic/category?userId=2&category=' + this.category
+      const url =config.base_url + '/topic/category?userId='+ this.userId +'&category=' + this.category
       //向后台获取数据
       axios
         .get(url)
         .then(response=>{
           this.total = response.data.length
           this.tableData = response.data
+          this.tableData = this.tableData.sort(this.compare("focus")).reverse();
         })
       if (val === 'topic') {
         this.topicinit()
@@ -109,18 +114,36 @@ export default {
     this.topicinit()
   },
   methods: {
+    //json数组比较
+   compare(property) {
+      return function(a, b) {
+        const value1 = a[property];
+        const value2 = b[property];
+        return value1 - value2;
+      }
+    },
     handleEdit(index,row) {
-      console.log(index,row)
+      const url = config.base_url + '/recommend/chakan'
+      axios
+        .post(url,{
+          userId: this.userId,
+          topicId: row.id,
+          focus: row.focus
+        })
+        .then(res=>{
+          console.log(res)
+        })
       this.$router.push({path:'/answer/'+ row.id})
     },
     topicinit() {
-      const url =config.base_url + '/topic/all?userId=2'
+      const url =config.base_url + '/topic/all?userId=' + this.userId
       //向后台获取数据
       axios
         .get(url)
         .then(response=>{
           this.total = response.data.length
           this.tableData = response.data
+          this.tableData = this.tableData.sort(this.compare("focus")).reverse();
         })
     },
     current_change:function(currentPage){

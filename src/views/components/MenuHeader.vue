@@ -33,7 +33,7 @@
       </el-menu>
     </el-col>
     <el-col :span="1" :offset="3">
-      <router-link :to="{name:'Profile'}" class="fontwhite" >{{username}}</router-link>
+      <router-link :to="{name:'Profile',params: { id: userId }}" class="fontwhite" >{{username}}</router-link>
     </el-col>
     <el-col :span="1">
       <router-link :to="{name:'Publish'}" class="fontwhite">发表</router-link>
@@ -60,7 +60,8 @@ import axios from 'axios'
       front: [],
       db:[],
       backstage:[],
-      username:''
+      username:'',
+      userId: this.$cookies.get('userId')
     };
   },
     watch: {
@@ -77,6 +78,13 @@ import axios from 'axios'
   methods: {
     init(){
       this.username = this.$cookies.get('username')
+      if (this.username === null) {
+        this.$notify.info({
+          title: '提示',
+          message: '登录已过期!'
+        });
+        this.$router.push({path: '/login'})
+      }
     },
 
     frontf() {
