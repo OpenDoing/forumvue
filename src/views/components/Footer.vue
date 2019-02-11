@@ -14,7 +14,7 @@
           <div class="fontwhite">致力于校内交流的社交平台</div>
         </el-col>
         <el-col :span="6" :offset="6">
-          <div class="fontwhite">关于我们</div>
+          <div class="fontwhite"><a href="http://www.chzu.edu.cn/">关于我们</a></div>
         </el-col>
       </el-row>
       <el-row style="margin-top: 15px">
@@ -48,4 +48,7 @@ export default {
     color: white;
     margin-top: 5px;
   }
+  a { text-decoration:none;
+    color:white;}
+  a:visited{color:white;}
 </style>

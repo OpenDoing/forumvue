@@ -14,14 +14,14 @@
       <el-col :span="1" >
         <el-button type="danger" size="small" round >{{topic.category}}</el-button>
       </el-col>
-      <el-col :span="2" :offset="12">
+      <el-col :span="4" :offset="12">
         <p>{{topic.createdDate}}</p>
       </el-col>
     </el-row>
 
     <el-row class="vcenter mt30">
       <el-col :span="16" :offset="4">
-        <div><p class="fonttopic">{{topic.content}}</p></div>
+        <div><p class="question">{{topic.content}}</p></div>
       </el-col>
     </el-row>
 
@@ -296,6 +296,10 @@ export default {
     margin-left: 20px;
   }
 
+  .question{
+    font-size: 20px;
+    margin-left: 20px;
+  }
   .mt30{
     margin-top: 30px;
 

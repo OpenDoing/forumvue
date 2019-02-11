@@ -3,24 +3,24 @@
     <MenuHeader></MenuHeader>
     <el-main>
       <el-row class="vcenter mt30">
-        <el-col :span="3" :offset="4">
+        <el-col :span="6" :offset="4">
           <div class="vline vcenter"><p class="fonttopic">{{username}}的个人主页</p></div>
         </el-col>
-        <el-col :span="3" :offset="11">
+        <el-col :span="3" :offset="8">
           <div class="vline vcenter"><p class="fonttopic">Points：{{points}}</p></div>
         </el-col>
       </el-row>
       <el-row class="mt30">
         <el-col :span="4" :offset="4">
-          <img :src="img" alt="加载失败，刷新重试">
+          <img :src="img" alt="加载失败，刷新重试" class="img">
           <br>
           <el-row class="mt30">
-            <el-col :span="6" :offset="9">
+            <el-col :span="6" :offset="7">
               <el-button  type="danger" size="mini" @click="photo" v-show="pbtn === true">更换头像</el-button>
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="6" class="mt30">
+        <el-col :span="6" class="">
           <div class="wrapper">
             <div class="hcenter bline"><h3>Personal Data</h3></div>
             <el-row class="bline fsize18">
@@ -51,7 +51,7 @@
             </el-row>
           </div>
         </el-col>
-        <el-col :span="6" :offset="1" class="mt30">
+        <el-col :span="6" :offset="1" class="">
           <div class="wrapper">
             <div class="hcenter bline"><h3>Activity</h3></div>
             <el-row class="bline fsize18">
@@ -268,6 +268,12 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
   }
+  .img{
+    width: 220px;
+    height: 220px;
+  }
 
-
+    .mt60{
+      margin-top: 60px;
+    }
 </style>
