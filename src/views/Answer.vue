@@ -58,7 +58,7 @@
             </el-col>
           </el-row>
           <el-row class="mt30">
-            <el-col :span="16" :offset="1">
+            <el-col :span="22" :offset="1">
               <div v-html="item.content">
 
               </div>
@@ -135,15 +135,8 @@ export default {
 
           })
 
-        this.$message({
-          type: 'success',
-          message: '你的邮箱是: ' + value
-        });
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消输入'
-        });
+
       });
 
       const url = config.base_url + '/answer/?answerId=' + id
@@ -308,7 +301,7 @@ export default {
   .answerWrapper{
     padding: 20px;
     background: #E9EEF3;
-    height: 120px;
+    /*height: 120px;*/
   }
 
   .sameLine{

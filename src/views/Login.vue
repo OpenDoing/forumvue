@@ -65,10 +65,22 @@ export default {
           let data = response.data
           console.log(data)
           if (data.errno === 0) {
-            this.$cookies.set('userId', data.data.id, 60 * 60)
-            this.$cookies.set('token', data.data.token,60 * 60)
-            this.$cookies.set('username', data.data.username,60 * 60)
-            this.$router.push({path: '/topic'})
+            if (data.data.status === 1) {
+              this.$cookies.set('userId', data.data.id, 60 * 60)
+              this.$cookies.set('token', data.data.token,60 * 60)
+              this.$cookies.set('username', data.data.username,60 * 60)
+              this.$router.push({path: '/topic'})
+            } else if (data.data.status === 0) {
+              this.$notify.info({
+                title: '提示',
+                message: '您的账号未通过审核!请联系管理员'
+              })
+            } else {
+              this.$notify.error({
+                title: '警告',
+                message: '由于您账号异常，已封号!请联系管理员'
+              })
+            }
           }else if (data.errno === 403) {
             this.$notify.info({
               title: '提示',

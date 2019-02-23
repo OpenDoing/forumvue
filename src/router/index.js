@@ -8,6 +8,10 @@ import Rank from '@/views/Rank'
 import Profile from '@/views/Profile'
 import Publish from '@/views/Publish'
 import Answer from '@/views/Answer'
+import UserCheck from '@/views/back/user/UserCheck'
+import Manage from '@/views/back/topic/Manage'
+import Prohibit from '@/views/back/user/Prohibit'
+import LoginBack from '@/views/back/LoginBack'
 // 前端相关
 import HTMLTopic from '@/views/topic/front/HTMLTopic'
 import CSSTopic from '@/views/topic/front/CSSTopic'
@@ -116,6 +120,26 @@ export default new Router({
       path: '/MySQL',
       name: 'MySQLTopic',
       component: MySQLTopic
+    },
+    {
+      path: '/back/teacher',
+      name: 'UserCheck',
+      component: UserCheck
+    },
+    {
+      path: '/back/topic',
+      name: 'Manage',
+      component: Manage
+    },
+    {
+      path: '/back/user',
+      name: 'Prohibit',
+      component: Prohibit
+    },
+    {
+      path: '/back/login',
+      name: 'LoginBack',
+      component: LoginBack
     },
   ]
 })
