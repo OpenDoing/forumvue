@@ -22,7 +22,7 @@
           <div class="fontwhite">你想说的，都在这里</div>
         </el-col>
         <el-col :span="6" :offset="6">
-          <div class="fontwhite"><router-link to="/back/user">2019年本科毕业设计</router-link> </div>
+          <div class="fontwhite"><router-link to="/back/login">2019年本科毕业设计</router-link> </div>
         </el-col>
       </el-row>
     </el-footer>

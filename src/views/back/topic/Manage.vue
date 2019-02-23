@@ -48,8 +48,13 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
+                type="primary"
+                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
                 type="danger"
                 @click="handleDel(scope.$index, scope.row)">删除</el-button>
+
             </template>
           </el-table-column>
         </el-table>
@@ -77,6 +82,7 @@ import Back from "../../components/Back"
 export default {
   name: "manage",
   components: {Back},
+  inject: ['reload'],
   data() {
     return {
       tableData: [],
@@ -100,6 +106,38 @@ export default {
     },
     current_change:function(currentPage){
       this.currentPage = currentPage;
+    },
+    handleEdit(index,row) {
+      const self = this
+
+      this.$prompt('', '修改标题', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputErrorMessage: '文件名不正确'
+      }).then(({ value }) => {
+        let self = this
+        const url = config.base_url + '/topic/title?title=' + value + '&id=' + row.id
+        axios
+          .post(url)
+          .then(function (response) {
+            self.$message({
+              message: '标题成功修改为：' + value,
+              type: 'success'
+            })
+            self.reload()
+          })
+          .catch(function (error) {
+            console.log(error)
+          });
+
+      }).catch(() => {
+        // this.$message({
+        //   type: 'info',
+        //   message: '取消输入'
+        // });
+      });
+
+      // const url = config.base_url + '/topic/title?title=' + row.id
     },
     handleDel(index,row) {
       const self = this

@@ -11,6 +11,7 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
+            <el-menu-item index="/">主页</el-menu-item>
             <el-menu-item index="/back/teacher">账号审核</el-menu-item>
             <el-menu-item index="/back/user">用户管理</el-menu-item>
 
@@ -28,7 +29,7 @@ export default {
   name: "Back",
   data() {
     return {
-      activeIndex: '/back/teacher'
+      activeIndex: '/back/user'
     }
   },
   methods: {
