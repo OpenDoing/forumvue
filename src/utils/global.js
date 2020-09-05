@@ -1,7 +1,8 @@
 const config = {
   // base_url: 'http://106.14.188.43:8004',
   base_url: 'http://localhost:8004',
-  image_url: 'http://localhost:8004/image/'
+  image_url: 'http://localhost:8004/image/',
+  computer_url: 'http://localhost:8004/v1/customer',
 }
 
 /* 获取指定cookie */

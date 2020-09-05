@@ -39,7 +39,7 @@
 <script>
 import Header from './components/Header'
 import Footer from  './components/Footer'
-import {config} from "../utils/global";
+import {config} from "../utils/global"
 import axios from 'axios'
 export default {
   name: "Login",

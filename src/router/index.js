@@ -12,6 +12,8 @@ import UserCheck from '@/views/back/user/UserCheck'
 import Manage from '@/views/back/topic/Manage'
 import Prohibit from '@/views/back/user/Prohibit'
 import LoginBack from '@/views/back/LoginBack'
+import A2A from '@/views/A2A/A2A'
+import ComputerTable from '@/views/ComputerTable'
 // 前端相关
 import HTMLTopic from '@/views/topic/front/HTMLTopic'
 import CSSTopic from '@/views/topic/front/CSSTopic'
@@ -29,8 +31,18 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: '/forum/',
+  base: '/aps/',
   routes: [
+    {
+      path: '/computer',
+      name: 'ComputerTable',
+      component: ComputerTable
+    },
+    {
+      path: '/A2A',
+      name: 'A2A',
+      component: A2A
+    },
     {
       path: '/',
       name: 'Home',
